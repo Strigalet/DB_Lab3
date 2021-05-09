@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   <script type="text/javascript">
+    function show_table(event, name){
+      var backtrack = event.target;
+      backtrack.classList.toggle('active');
+      document.getElementById(name+'-table').toggleAttribute('hidden');
+    }
+  </script>
+
+  <script type="text/javascript">
+  function update(event, identity) {
+    var field =  event.target.parentElement.parentElement;
+    var attributes = field.children;
+    for (var i = 1; i < attributes.length; i++) {
+      if(attributes[i].children.length != 0){
+        break;
+      }
+      attributes[i].innerHTML = '<input class="form-control" form="formid'+attributes[0].innerHTML+'" value="' + attributes[i].innerHTML +'" name="'+document.getElementById(identity).children[i].innerHTML+'" id="'+ document.getElementById(identity).children[i].innerHTML+'">';
+    }
+    attributes[attributes.length-2].innerHTML = '<button type="submit" form="formid'+attributes[0].innerHTML+'" class="btn btn-primary">Update</button>';
+    attributes[0].innerHTML = '<input class="form-control" form="formid'+attributes[0].innerHTML+'" value="' + attributes[0].innerHTML +'" name="'+document.getElementById(identity).children[0].innerHTML+'" readonly>';
+  }
+</script>
+
+  <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 1000px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+        
+    /* On small screens, set height to 'auto' for the grid */
+    @media screen and (max-width: 767px) {
+      .row.content {height: auto;} 
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row content">
+    <div class="col-sm-3 sidenav hidden-xs">
+      <h2>Yutabelniy</h2>
+      <ul class="nav nav-pills nav-stacked">
+        <li class="nav-item"><button  class="btn nav-link btn-outline-success" style="background-color:black; border:none;" href="" onclick="show_table(event, 'channel')">Channel</button></li>
+        <li class="nav-item"><button  class="btn nav-link btn-outline-success" style="background-color:black; border:none;" href="" onclick="show_table(event, 'video')">Video</button></li>
+      </ul><br>
+    </div>
+    <br>
+    
+    <div class="col-sm-9">
+      <table class="table table-hover text-left table-striped" id="channel-table">
+        <thead class="thead-light">
+          <tr id="chl-tr">
+            <th scope="col">channel</th>
+            <th scope="col">subscribers</th>
+            <th style="width:10%"></th>
+            <th style="width:10%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in chl %}
+          <form action='{{channel_name}}/Update' method='post' id='formid{{c.name}}'></form>
+          <tr name='{{c.id}}'>
+             <td placeholder="name">{{ c.name }}</td>
+             <td placeholder="subscribers">{{ c.subscribers }}</td>
+             <td><button type="button" class="btn btn-primary" onclick="update(event,'chl-tr')">Update</button></td>
+             <td name="delete"><a href='{{channel_name}}/Delete/{{c.name}}'><button ctype="button" class="btn btn-primary">Delete</button></a></td>
+          </tr>
+          {% endfor %}
+          <form action="{{channel_name}}/Create" method="post">
+            <tr>
+              <td><input class="form-control" name="name" placeholder="Channel" required autocomplete="off"></input></td>
+              <td><input class="form-control" name="subscribers" placeholder="Subscribers" required autocomplete="off"></input></td>
+              <td colspan="2"><button type="submit" class="btn btn-primary" style="width:100%">Create</button></td>
+            </tr>
+          </form>
+        </tbody>
+      </table>
+
+
+      <table class="table" id="video-table">
+        <thead class="thead-light">
+          <tr id="vid-tr">
+            <th scope="col">link</th>
+            <th scope="col">name</th>
+            <th scope="col">channel</th>
+            <th scope="col">views</th>
+            <th scope="col">rating</th>
+            <th style="width:10%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for v in vid %}
+          <form action='{{video_name}}/Update' method='post' id='formid{{v.link}}'></form>
+          <tr name='{{v.id}}'>
+             <td placeholder="link">{{ v.link }}</td>
+             <td placeholder="name">{{ v.name }}</td>
+             <td placeholder="channel">{{ v.channel }}</td>
+             <td placeholder="views">{{ v.views }}</td>
+             <td placeholder="rating">{{ v.rating }}</td>
+             <td><button type="button" class="btn btn-primary" onclick="update(event,'vid-tr')">Update</button></td>
+             <td name="delete"><a href='{{video_name}}/Delete/{{v.link}}'><button ctype="button" class="btn btn-primary">Delete</button></a></td>
+          </tr>
+          {% endfor %}
+          <form action="{{video_name}}/Create" method="post">
+            <tr>
+              <td><input class="form-control" name="link" placeholder="link" required autocomplete="off"></input></td>
+              <td><input class="form-control" name="name" placeholder="name" required autocomplete="off"></input></td>
+              <td><input class="form-control" name="channel" placeholder="channel" required autocomplete="off"></input></td>
+              <td><input class="form-control" name="views" placeholder="views" required autocomplete="off"></input></td>
+              <td><input class="form-control" name="rating" placeholder="rating" required autocomplete="off"></input></td>
+              <td colspan="2"><button type="submit" class="btn btn-primary" style="width:100%">Create</button></td>
+            </tr>
+          </form>
+        </tbody>
+      </table>
+     
+     
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
