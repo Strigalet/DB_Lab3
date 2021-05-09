@@ -8,7 +8,7 @@ If you want to interpret site by yourself:
 2. Install flask and flask_sqlalchemy
 3. Set: app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://your_login:your_password@localhost/your_database' in app.py
 4. Run app.py
-5. Check localhost:500
+5. Check localhost:5000
 
 
 ERD:
