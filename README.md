@@ -6,8 +6,11 @@ There you can see two tables:
 2. Videos: link(pk), video_name, channel_name(fk), views, rating.
 
 You can press buttons in the top-left corner to show/hide tables.
+
 You can edit rows, but not their primary keys, however you can change the foreign key, but only if it's exist in the parent table.
+
 You can delete rows.(take note that if you delete row in parent table, the orphan rows in child table would be deleted too)
+
 You can create rows with meaningful values(or not so :D), also watch out for primary key duplication.
 
 
