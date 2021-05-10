@@ -89,7 +89,7 @@ def delete(table,name):
 	elif table == 'Channel':
 		require = db.session.query(Channel).get(name)
 	try:
-		db.session.delete(i)
+		db.session.delete(require)
 		db.session.commit()
 	except Exception:
 		redirect(url_for('render'))
