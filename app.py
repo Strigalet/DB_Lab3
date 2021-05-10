@@ -86,12 +86,16 @@ def update(table):
 def delete(table,name):
 	if table == 'Video':
 		require = Video.query.all()
+		for i in require:
+			if i.name == link:
+				db.session.delete(i)
+				db.session.commit()
 	elif table == 'Channel':
 		require = Channel.query.all()
-	for i in require:
-		if i.name == name:
-			db.session.delete(i)
-			db.session.commit()
+		for i in require:
+			if i.name == name:
+				db.session.delete(i)
+				db.session.commit()
 	return redirect(url_for('render'))
 
 
