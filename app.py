@@ -87,7 +87,7 @@ def delete(table,name):
 	if table == 'Video':
 		require = Video.query.all()
 		for i in require:
-			if i.name == link:
+			if i.name == name:
 				db.session.delete(i)
 				db.session.commit()
 	elif table == 'Channel':
