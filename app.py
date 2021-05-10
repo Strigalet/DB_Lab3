@@ -85,17 +85,14 @@ def update(table):
 @app.route('/<table>/Delete/<name>')
 def delete(table,name):
 	if table == 'Video':
-		require = Video.query.all()
-		for i in require:
-			if i.name == name:
-				db.session.delete(i)
-				db.session.commit()
+		require = db.session.query(Video).get(name)
 	elif table == 'Channel':
-		require = Channel.query.all()
-		for i in require:
-			if i.name == name:
-				db.session.delete(i)
-				db.session.commit()
+		require = db.session.query(Channel).get(name)
+	try:
+		db.session.delete(i)
+		db.session.commit()
+	except Exception:
+		redirect(url_for('render'))
 	return redirect(url_for('render'))
 
 
